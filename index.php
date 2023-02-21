@@ -1,5 +1,11 @@
 <?php
+    session_start();
     include __DIR__.'/functions.php';
+
+    if(isset($_GET['pswLen'])) {
+        $_SESSION['psw'] = genPsw($_GET['pswLen'], $genString);
+        header('Location: ./result.php');
+    };
 ?>
 
 <!DOCTYPE html>
@@ -16,11 +22,8 @@
     </head>
     <body>
         
-        <header class="py-4 bg-primary text-white">
-            <div class="container">
-                <h1>PHP Strong Password Generator</h1>
-            </div>
-        </header>
+        <?php include __DIR__.'/header.php'; ?>
+
         <main class="py-5">
             <section class="mb-5">
                 <div class="container">
@@ -28,7 +31,7 @@
                         Genera la tua password
                     </h2>
 
-                    <form action="" method="GET">
+                    <form method="GET">
                     <div class="mb-3">
                         <label for="pswLen" class="form-label">Quanto deve essere lunga?</label>
                         <input type="number" class="form-control w-25" id="pswLen" name="pswLen" min="6" max="12" value="6">
@@ -38,20 +41,6 @@
                     </form>
                 </div>
             </section>
-
-            <?php if(isset($_GET['pswLen'])) {?>
-                <section class="mb-4">
-                    <div class="container">
-                        <h3 class="mb-3">Ecco la tua password</h3>
-                        
-                        <div class="p-3 w-25 text-center border border-info rounded-3 bg-info bg-opacity-25">
-                            <h5>
-                                <?php echo genPsw($_GET['pswLen'], $genString) ; ?>
-                            </h5>
-                        </div>
-                    </div>
-                </section>
-            <?php } ?>
         </main>
 
     </body>
