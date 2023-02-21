@@ -2,8 +2,18 @@
     session_start();
     include __DIR__.'/functions.php';
 
-    if(isset($_GET['pswLen'])) {
-        $_SESSION['psw'] = genPsw($_GET['pswLen'], $genString);
+    if(
+        isset($_GET['pswLen'])
+        &&
+        (
+            $_GET['let'] != null
+            ||
+            $_GET['num'] != null
+            ||
+            $_GET['sym'] != null
+        )
+    ) {
+        $_SESSION['psw'] = genPsw($_GET['pswLen'], $GET['uniqChar'], $_GET['let'], $_GET['num'], $_GET['sym']);
         header('Location: ./result.php');
     };
 ?>
@@ -34,10 +44,56 @@
                     <form method="GET">
                     <div class="mb-3">
                         <label for="pswLen" class="form-label">Quanto deve essere lunga?</label>
-                        <input type="number" class="form-control w-25" id="pswLen" name="pswLen" min="6" max="12" value="6">
-                        <div class="form-text">Inserisci un numero compreso tra 6 e 12</div>
+                        <input type="number" class="form-control w-25" id="pswLen" name="pswLen" min="6" max="10" value="<?php echo $_GET['pswLen'] ?>">
+                        <div class="form-text">Inserisci un numero compreso tra 6 e 10</div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Genera</button>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="true" id="let" name="let" checked>
+                        <label class="form-check-label" for="let">
+                            Includi lettere
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="true" id="num" name="num">
+                        <label class="form-check-label" for="num">
+                            Includi numeri
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="true" id="sym" name="sym">
+                        <label class="form-check-label" for="sym">
+                            Includi simboli
+                        </label>
+                    </div>
+                    <div class="form-text">Seleziona almeno un'opzione</div>
+
+                    <?php
+                        if(
+                            isset($_GET['pswLen']) &&
+                            ($_GET['let'] == null && $_GET['num'] == null && $_GET['sym'] == null)
+                        ) {
+                    ?>
+                        <div class="alert alert-danger" role="alert">
+                            Devi selezionare almeno un opzione!
+                        </div>
+                    <?php } ?>
+                    <div class="mt-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="uniqChar" id="uniqChar1" value="true">
+                            <label class="form-check-label" for="uniqChar1">
+                                Voglio tutti caratteri diversi
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="uniqChar" id="uniqChar2" value="false" checked>
+                            <label class="form-check-label" for="uniqChar2">
+                                I caratteri si possono ripetere
+                            </label>
+                        </div>
+                    </div>
+                    
+
+                    <button type="submit" class="mt-3 btn btn-primary">Genera</button>
                     </form>
                 </div>
             </section>
