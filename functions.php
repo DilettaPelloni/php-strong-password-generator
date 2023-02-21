@@ -11,18 +11,20 @@
 
         $psw = '';
 
-        if($uniq == 'true') {
-            do 
-        }
-        else {
-            for($i = 0; $i < $len; $i++) {
+        for($i = 0; $i < $len; $i++) {
+            if($uniq == 'true') {
+                do { $index = rand(0, strlen($genString) - 1); }
+                while (str_contains($psw, $genString[$index]));
+            }
+            else {
                 $index = rand(0, strlen($genString) - 1);
-                $psw .= $genString[$index];
             };
+            $psw .= $genString[$index];
         };
-        
         return $psw;
     };
 ?>
 
-str_contains($psw, $genString[$index])
+
+              
+                

@@ -13,7 +13,7 @@
             $_GET['sym'] != null
         )
     ) {
-        $_SESSION['psw'] = genPsw($_GET['pswLen'], $GET['uniqChar'], $_GET['let'], $_GET['num'], $_GET['sym']);
+        $_SESSION['psw'] = genPsw($_GET['pswLen'], $_GET['uniqChar'], $_GET['let'], $_GET['num'], $_GET['sym']);
         header('Location: ./result.php');
     };
 ?>
@@ -44,7 +44,7 @@
                     <form method="GET">
                     <div class="mb-3">
                         <label for="pswLen" class="form-label">Quanto deve essere lunga?</label>
-                        <input type="number" class="form-control w-25" id="pswLen" name="pswLen" min="6" max="10" value="<?php echo $_GET['pswLen'] ?>">
+                        <input type="number" class="form-control w-25" id="pswLen" name="pswLen" min="6" max="10" value="<?php echo $_GET['pswLen'] ?? '6' ?>">
                         <div class="form-text">Inserisci un numero compreso tra 6 e 10</div>
                     </div>
                     <div class="form-check">
